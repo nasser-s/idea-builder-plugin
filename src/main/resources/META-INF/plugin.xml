@@ -1,0 +1,35 @@
+<idea-plugin>
+    <id>com.ns.ide.Builder</id>
+    <name>Java bean builder generator</name>
+    <vendor email="nasser.sadeqi@gmail.com" url="">Nasser Sadeqi</vendor>
+
+    <description><![CDATA[
+        Generates builder for java beans
+    ]]></description>
+
+
+    <change-notes>Generates builder class for current active java bean</change-notes>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action class="com.ns.action.GenerateStandaloneBuilder" id="generate-builder" text="Generate builder" description="Generate builder for specified class">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <!--<keyboard-shortcut first-keystroke="" keymap=""> </keyboard-shortcut>-->
+        </action>
+        <!-- Add your actions here -->
+    </actions>
+
+    <!--<actions>
+        <action class="com.ns.action.GenerateNestedBuilder" id="generate-bilder" text="Generate builder nested" description="Generate builder for specified class">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+        </action>
+        &lt;!&ndash; Add your actions here &ndash;&gt;
+    </actions>-->
+</idea-plugin>

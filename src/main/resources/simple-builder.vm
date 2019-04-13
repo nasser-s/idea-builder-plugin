@@ -1,0 +1,100 @@
+## ${Util.setterName($f.name)}
+import java.util.*;
+public class ${BuilderName}{
+
+    private ${BuilderName}(){}
+
+    public static ${BuilderName} getInstance(){
+        return new ${BuilderName}();
+    }
+
+
+    public ${TargetName} build(){
+    ${TargetName} bean = new ${TargetName}();
+    #foreach($f in $allfields)
+        bean.${Util.setterName($f.name)}(this.${f.name});
+    #end
+        return bean;
+    }
+
+
+    public ${TargetName} clone(${TargetName} origin){
+        ${BuilderName} builder = ${BuilderName}.getInstance();
+    #foreach($f in $allfields)
+        builder.${Util.setterName($f.name)}(origin.${Util.getterName($f.name)}());
+    #end
+        return builder.build();
+    }
+
+
+#foreach($f in $oneDimArrayFields)
+    private ${f.type.CanonicalText} ${f.name} = null;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val==null?null:val.clone();
+        return this;
+    }
+#end
+
+#foreach( $f in     $multiDimArrayFields)
+    private ${f.type.CanonicalText} ${f.name} = null ;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val;
+        return this;
+    }
+#end
+
+#foreach( $f in     $dateFields)
+    private ${f.type.CanonicalText} ${f.name} = null;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val==null? null:new ${f.type.getCanonicalText()}(val.getTime()) ;;
+        return this;
+    }
+#end
+
+#foreach( $f in     $setFields)
+    private ${f.type.CanonicalText} ${f.name} = Collections.emptySet();
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val!=null?Collections.unmodifiableSet(new HashSet(val) ):null;
+        return this;
+    }
+#end
+
+#foreach( $f in     $listFields)
+
+    private ${f.type.CanonicalText} ${f.name} = Collections.emptyList();
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val!=null?Collections.unmodifiableList(new ArrayList(val) ):null;
+        return this;
+    }
+#end
+
+#foreach( $f in     $mapFields)
+    private ${f.type.CanonicalText} ${f.name} = Collections.emptyMap();
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val!=null?Collections.unmodifiableMap(new HashMap(val) ):null;
+        return this;
+    }
+#end
+
+#foreach( $f in     $primitiveFields)
+    private ${f.type.CanonicalText} ${f.name} = 0;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val;
+        return this;
+    }
+#end#foreach( $f in     $booleanFields)
+    private ${f.type.CanonicalText} ${f.name} = false;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val;
+        return this;
+    }
+#end
+#foreach( $f in     $otherFileds)
+    private ${f.type.CanonicalText} ${f.name} = null;
+    public ${BuilderName} ${Util.setterName($f.name)}(${f.type.CanonicalText} val){
+        this.${f.name} = val;
+        return this;
+    }
+#end
+
+}
