@@ -1,2 +1,2 @@
 # idea-builder-plugin
-intellij idea java bean builder plugin
+Java bean builder generator plugin for Inttelij Idea
