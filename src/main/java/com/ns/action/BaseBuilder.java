@@ -1,11 +1,9 @@
 package com.ns.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.psi.PsiArrayType;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiJavaFile;
-import com.intellij.psi.PsiType;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.ns.plugin.util.Util;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -13,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,9 +37,15 @@ public abstract class BaseBuilder extends AnAction {
         List<PsiField> otherFileds = new ArrayList<>(allFields.length);
         List<PsiField> primitiveFields = new ArrayList<>(allFields.length);
         List<PsiField> booleanFields = new ArrayList<>(allFields.length);
+        List<PsiField> fieldsWithSetter = new ArrayList<>(allFields.length);
+
 
         for (PsiField field : allFields) {
             PsiType type = field.getType();
+            if(!hasSetter(field)){
+                continue;
+            }
+            fieldsWithSetter.add(field);
             if (type instanceof com.intellij.psi.impl.source.PsiClassReferenceType) {
                 PsiClassReferenceType referenceType = (PsiClassReferenceType) type;
                 String className = referenceType.getCanonicalText();
@@ -85,6 +90,7 @@ public abstract class BaseBuilder extends AnAction {
         params.put("BuilderName", getBuilderName(currentPsiJavaFile));
         params.put("TargetName", selectedClassName);
         params.put("allfields", allFields);
+        params.put("fieldsWithSetter", fieldsWithSetter);
 
         params.put("oneDimArrayFields", oneDimArrayFields);
         params.put("multiDimArrayFields", multiDimArrayFields);
@@ -100,5 +106,18 @@ public abstract class BaseBuilder extends AnAction {
 
         Velocity.evaluate(new VelocityContext(params), out, "", new InputStreamReader(this.getClass().getResourceAsStream(templateName)));
         return out.toString();
+    }
+
+    protected  boolean hasSetter(PsiField field){
+        PsiClass containingClass = field.getContainingClass();
+        PsiMethod[] allMethods = containingClass.getAllMethods();
+        for (int i = 0; i < allMethods.length; i++) {
+            PsiMethod method = allMethods[i];
+            if(method.getName().equals(Util.setterName(field.getName()))){
+                return true;
+            }
+        }
+        return false;
+
     }
 }
