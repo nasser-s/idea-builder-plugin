@@ -19,7 +19,7 @@ dependencies {
 }
 
 intellij {
-     version '14.0.1'
+     version '2018.2.4'
 }
 patchPluginXml {
     changeNotes """
@@ -28,5 +28,6 @@ patchPluginXml {
 }
 publishPlugin {
     username intellijPublishUsername
-    password intellijPublishPassword    
+    password intellijPublishPassword
+    channels 'alpha'
 }
