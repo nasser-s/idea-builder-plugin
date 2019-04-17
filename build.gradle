@@ -23,8 +23,8 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      Generates builder for selected java bean.<br>      
+      """
 }
 publishPlugin {
     username intellijPublishUsername
