@@ -4,7 +4,7 @@
     <vendor email="nasser.sadeqi@gmail.com" url="">Nasser Sadeqi</vendor>
 
     <description><![CDATA[
-        Generates builder for java beans
+        * Generates builder for java beans.
     ]]></description>
 
 
