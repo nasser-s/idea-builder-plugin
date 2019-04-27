@@ -18,7 +18,10 @@ public static class ${BuilderName}{
     }
 
 
-    public ${TargetName} clone(${TargetName} origin){
+/**
+* Clone
+*/
+public static ${TargetName} clone(${TargetName} origin){
         ${BuilderName} builder = ${BuilderName}.getInstance();
     #foreach($f in $allfields)
     builder.${Util.setterName($f.name)}(origin.${Util.getterNameEx($f.name,$f)}());
